@@ -16,7 +16,7 @@ XRTM_DBL_ERROR = -17976931348623157081452742373170435679807056752584499659891747
 function options_to_mask(list)
     mask = 0
     for i in 1:length(list)
-        r = @ccall xrtm_option_name_to_mask(list[i]::Cstring)::Cint
+        r = @ccall "XRTM"xrtm_option_name_to_mask(list[i]::Cstring)::Cint
         if r == -1
             error("options_to_mask()")
         end
@@ -28,7 +28,7 @@ end
 function solvers_to_mask(list)
     mask = 0
     for i in 1:length(list)
-        r = @ccall xrtm_solver_name_to_mask(list[i]::Cstring)::Cint
+        r = @ccall "XRTM".xrtm_solver_name_to_mask(list[i]::Cstring)::Cint
         if r == -1
             error("solvers_to_mask()")
         end
@@ -41,12 +41,12 @@ function solver_mask_to_list(mask)
     list = Vector{String}(undef, 0)
     global i = 0
     while true
-        mask2 = @ccall xrtm_solver_index_to_mask(i::Cint)::Cint
+        mask2 = @ccall "XRTM".xrtm_solver_index_to_mask(i::Cint)::Cint
         if mask2 == -1
             break
         end
         if mask & mask2 != 0
-            name = @ccall xrtm_solver_index_to_name(i::Cint)::Cstring
+            name = @ccall "XRTM".xrtm_solver_index_to_name(i::Cint)::Cstring
             push!(list, unsafe_string(name))
         end
         global i += 1
@@ -58,12 +58,12 @@ function option_mask_to_list(mask)
     list = Vector{String}(undef, 0)
     global i = 0
     while true
-        mask2 = @ccall xrtm_option_index_to_mask(i::Cint)::Cint
+        mask2 = @ccall "XRTM".xrtm_option_index_to_mask(i::Cint)::Cint
         if mask2 == -1
             break
         end
         if mask & mask2 != 0
-            name = @ccall xrtm_option_index_to_name(i::Cint)::Cstring
+            name = @ccall "XRTM".xrtm_option_index_to_name(i::Cint)::Cstring
             push!(list, unsafe_string(name))
         end
         global i += 1
