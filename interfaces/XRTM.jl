@@ -16,7 +16,7 @@ XRTM_DBL_ERROR = -17976931348623157081452742373170435679807056752584499659891747
 function options_to_mask(list)
     mask = 0
     for i in 1:length(list)
-        r = @ccall "XRTM"xrtm_option_name_to_mask(list[i]::Cstring)::Cint
+        r = @ccall "XRTM".xrtm_option_name_to_mask(list[i]::Cstring)::Cint
         if r == -1
             error("options_to_mask()")
         end
